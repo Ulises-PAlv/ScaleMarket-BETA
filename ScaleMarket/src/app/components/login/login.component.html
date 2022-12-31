@@ -1,0 +1,107 @@
+<section class="login py-5">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <img src="../../../assets/hunter/hunter_skin.png"
+                    class="img-fluid" alt="hunter">
+            </div>
+            <div class="pr-5 col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <form class="login-form">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <div class="input-group mb-3 input-group-lg">
+                            <input type="text" class="form-control" placeholder="Email address" aria-label="email"
+                                aria-describedby="basic-addon1" #loginUsername>
+                        </div>
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                        <div class="input-group mb-3 input-group-lg">
+                            <input type="password" class="form-control" placeholder="Password" aria-label="password"
+                                aria-describedby="basic-addon1" #loginPassword>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-around align-items-center mb-4">
+                        <!-- Checkbox -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                            <label class="form-check-label" for="form1Example3"> Remember me </label>
+                        </div>
+                        <a href="#!">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="button" class="btn btn-dark btn-lg btn-block" (click)="checkLogIn(loginUsername.value, loginPassword.value)" style="background-color: #222425">Log in</button>
+                    <button type="button" class="btn btn-dark btn-lg btn-block" (click)="switchSignInModal()"
+                    style="background-color: #222425">Sign in</button>
+
+                    <div class="divider d-flex align-items-center my-4">
+                        <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
+                    </div>
+
+                    <div class="row">
+                        <a class="btn btn-primary col-6" href="#"
+                            role="button">
+                            <i class="fab fa-facebook-f mr-2"></i>Facebook
+                        </a>
+                        <a class="btn btn-primary col-6" style="background-color: #222425" href="#"
+                            role="button">
+                            <i class="fab fa-github mr-2"></i>Github
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row d-flex justify-content-center signin" *ngIf="showSignIn">
+    <div class="col-lg-8">
+        <h2 class="fw-bold mb-4 text-center">Sign up now</h2>
+        <form>
+            <div class="form-outline mb-3">
+                <input type="text" #signName class="form-control" placeholder="First name" (change)="setObjValues(signName.value, 0)"/>
+            </div>
+
+            <!-- Email input -->
+            <div class="form-outline mb-3">
+                <input type="email" #signEmail class="form-control" placeholder="Email address" (change)="setObjValues(signEmail.value, 1)"/>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-3">
+                <input type="password" #signPassword class="form-control" placeholder="Password" (change)="setObjValues(signPassword.value, 2)"/>
+            </div>
+
+            <!-- Submit button -->
+            <button type="button" class="btn btn-primary btn-block mb-3" (click)="signIn()">
+                Sign up
+            </button>
+            <button type="button" class="btn btn-primary btn-block mb-3" (click)="switchSignInModal()">
+                Close
+            </button>
+
+            <!-- Register buttons -->
+            <div class="text-center">
+                <p>or sign up with:</p>
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-google"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-twitter"></i>
+                </button>
+
+                <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-github"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

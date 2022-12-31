@@ -1,0 +1,24 @@
+<app-menubar (selectOpt)="renderApp($event)"></app-menubar>
+<app-navbar (selectOpt)="renderApp($event)"></app-navbar>
+
+<div id="app-container">
+    <div [ngSwitch]="appOpt">
+        <app-management *ngSwitchCase="'management'"></app-management>
+        <app-profile *ngSwitchCase="'profile'"></app-profile>
+        <app-trade *ngSwitchCase="'trade'"></app-trade>
+        <app-shop *ngSwitchCase="'shop'"></app-shop>
+        <app-auction *ngSwitchCase="'auction'"></app-auction>
+        <app-item-view *ngSwitchCase="'item-view'"></app-item-view>
+        <app-community *ngSwitchCase="'community'"></app-community>
+        <app-warehouse *ngSwitchCase="'warehouse'"></app-warehouse>
+        <app-about-us *ngSwitchCase="'about-us'"></app-about-us>
+        <app-academy *ngSwitchCase="'academy'"></app-academy>
+        <app-user *ngSwitchCase="'user-view'"></app-user>
+        <app-verify-profile *ngSwitchCase="'verify'"></app-verify-profile>
+        <app-warehouse-status *ngSwitchCase="'warehouse-status'"></app-warehouse-status>
+        
+        <div *ngSwitchDefault class="landing-app">
+            <h1>Test</h1>
+        </div>
+    </div>
+</div>

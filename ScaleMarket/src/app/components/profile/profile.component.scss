@@ -1,0 +1,41 @@
+@import "../../app.component.scss";
+
+.main-body {
+    padding: 15px;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    max-width: 120px;
+    max-height: 120px;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+}
+
+.imgUser {
+    height: 120px !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.gold {
+    color: rgb(193, 173, 0);
+}
+
+.exp {
+    min-width: 100% !important;
+}
+
+.f75 {
+    font-size: 0.75rem;
+}
+
+.borders {
+    border-top: 1px solid rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 0.3rem;
+}

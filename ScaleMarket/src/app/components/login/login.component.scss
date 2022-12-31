@@ -1,0 +1,49 @@
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.login {
+    width: 100% !important;
+    height: 100%;
+
+    padding-top: 2.5rem !important;
+    background-color: rgb(255, 255, 245);
+}
+
+.login-form {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.signin {
+    z-index: 1000;
+    position: absolute;
+    top: 17.2%;
+    left: 60.1%;
+    width: 25rem !important;
+    height: 28rem !important;
+    padding-top: 2rem;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+
+    animation: fadeIn;
+    animation-duration: 1s;
+}
+
+span {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: rgb(197, 179, 51) !important;
+    border: 1px solid rgb(135, 120, 1) !important;
+}

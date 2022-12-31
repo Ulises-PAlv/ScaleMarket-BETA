@@ -1,0 +1,22 @@
+@import "node_modules/angular-notifier/styles";
+
+.frame-size {
+    width: calc(100vw - 14em) !important;
+    height: calc(100vh - 3.5rem) !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-top: 3.5rem;
+    /* margin-left: 14em; */
+    position: fixed;
+    background-color: white;
+}
+
+.bread-crumb {
+    margin-bottom: 1.2rem;
+    h4 {
+        color: rgba(128, 128, 128, 0.5);
+        font-weight: lighter;
+        font-size: 1rem;
+        margin-left: 2rem;
+    }
+}
