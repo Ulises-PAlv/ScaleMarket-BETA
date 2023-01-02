@@ -20,6 +20,8 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
+app.use(express.json({limit: '16mb'}));
+app.use(express.urlencoded({limit: '16mb'}));
 
 const port = process.env.PORT || 3000;
 var jsonParser = bodyParser.json();
@@ -39,7 +41,7 @@ const dbOptions = {
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: '1610',
     database: 'scale_market'
 }
 
@@ -585,6 +587,18 @@ app.put('/update/warehouse/restock/:id', jsonParser, (req, res) => { // !! Wareh
     });
 });
 
+app.put('/update/warehouse/image/:id', jsonParser, (req, res) => { // !! Warehouse add image
+    req.getConnection((err, conn) => {
+        if(err) return res.send(err);
+
+        console.log(req.params.id);
+        conn.query("UPDATE warehouse SET refImg = CHAR(" + req.body.buffer + ") WHERE id = " + req.params.id, (err, rows) => {
+            if(err) return res.send(err);
+            res.json(rows);
+        });
+    });
+});
+
 app.put('/update/warehouse/soldOut/:id', jsonParser, (req, res) => { // !! Warehouse sold out
     req.getConnection((err, conn) => {
         if(err) return res.send(err);
@@ -751,3 +765,4 @@ app.delete('/delete/prospectstmp/item/:itemID', (req, res) => { // !! Remove ite
         });
     });
 });
+

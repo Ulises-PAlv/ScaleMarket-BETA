@@ -40,7 +40,7 @@ app.get('/person/list', (req, res) => {
         url: "https://api.luxand.cloud/person",
         qs: {},
         headers: {
-            'token': ""
+            'token': "257bbd3b3d234676aa48095e53f15043"
         }
     };
     
@@ -57,7 +57,7 @@ app.post('/person/create', jsonParser, (req, res) => {
         url: "https://api.luxand.cloud/person",
         qs: {"name": req.body.name, "store":"1"},
         headers: {
-            'token': ""
+            'token': "257bbd3b3d234676aa48095e53f15043"
         },
         formData: { 
             photo: fs.createReadStream('./foto.jpg')
@@ -82,7 +82,7 @@ app.post('/person/recognition', jsonParser, (req, res) => {
         url: "https://api.luxand.cloud/photo/search",
         qs: {},
         headers: {
-            'token': ""
+            'token': "257bbd3b3d234676aa48095e53f15043"
         },
         formData: { 
             photo: fs.createReadStream('./foto.jpg')
