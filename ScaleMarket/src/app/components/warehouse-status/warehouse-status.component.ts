@@ -19,6 +19,7 @@ export class WarehouseStatusComponent implements OnInit {
   prospectItems: any[] = [];
   warehouseItems: any[] = [];
   bandFocusImg: boolean = false;
+  bandAddItem: boolean = false;
   focusImg: any;
   user: any;
 
@@ -27,12 +28,125 @@ export class WarehouseStatusComponent implements OnInit {
   itemsToSell: number = 0;
   totalMoney: number = 0;
 
+  warehouse_list: any[] = [];
+  auxImageToPost: any;
+  typeStr: string = '';
+  postBlob: any;
+
   constructor( private _notifier: NotifierService, private _user: UsersService, private _wh: WarehouseService,
     private _prospect: AuxiliarService, private _casting: CastingService, private _pack: PackService,
     public domSanitizer: DomSanitizer ) { }
 
   viewProspect() {
+    
+  }
 
+  updateType(type: string) {
+    this.typeStr = type;
+    this.getWarehouseList();
+    console.log(this.typeStr);
+  }
+
+  getWarehouseList(): void {
+    this.warehouse_list = [];
+
+    if(this.typeStr == 'Pack') {
+      this._pack.getVerifiedPacks().subscribe((data: any) => {
+        data.forEach((item: any) => {
+          let obj = {
+            id: item.id,
+            name: item.name,
+            edition: item.edition,
+            year: item.year,
+            type: 'pack'
+          }
+          this.warehouse_list.push(obj);
+        });
+      });
+    } else {
+      this._casting.getVerifiedCastings().subscribe((res: any) => {
+        res.forEach((item: any) => {
+          let obj = {
+            id: item.id,
+            name: item.name,
+            oddity: item.oddity,
+            year: item.year,
+            variant: item.variant,
+            type: 'casting'
+          }
+          this.warehouse_list.push(obj);
+        });
+      });
+    }
+  }
+
+  addItem() {
+    this.bandAddItem = true;
+  }
+
+  closeAddItem() {
+    this.bandAddItem = false;
+  }
+  
+  convertBase64(file) {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+
+        fileReader.onerror = (error) => {
+            reject(error);
+        };
+    });
+  }
+
+  async uploadRefImg(e: any): Promise<any> {
+    const file = e.target.files[0];
+    const base64: any = await this.convertBase64(file);
+    console.log(base64);
+    
+    const base64Response = await fetch(base64);
+    let aux = await base64Response.arrayBuffer();
+    this.postBlob = new Uint8Array(aux);
+    console.log(this.postBlob);
+  }
+
+  async postItem(type: string, item: any, blister: string, blCondition: string, castingScore: any, cost: string, quantity: string) {
+    let obj = {
+      userID: this.user.id,
+      itemID: item,
+      type: type,
+      blister: blister,
+      blisterCondition: blCondition,
+      castingScore: castingScore,
+      value: cost,
+      negotiable: 0,
+      soldOut: 0,
+      trade: 0,
+      quantity: quantity,
+      ToStoreOrSell: 0
+    }
+
+    console.log(obj);
+    this._wh.postWareHouseItem(obj).subscribe((res: any) => {
+      let imgObj = {
+        buffer: this.postBlob
+      };
+      console.log(res)
+      this._wh.putWhImage(res.insertId, imgObj);
+    });
+
+    /* let imgObj = {
+      buffer: this.postBlob
+    };
+    let response = await this._wh.postWareHouseItem(obj)
+    console.log(response);
+    if(response) {
+      await this._wh.putWhImage(response, imgObj);
+    } */
   }
 
   async consultCastings(id: number): Promise<any> {
@@ -51,21 +165,30 @@ export class WarehouseStatusComponent implements OnInit {
   }
 
   updateNegotiable(value: number, id: number) {
-    value == 0? value = 1 : value = 0;
+    switch(value) {
+      case 0: value = 1; break; case 1: value = 0; break;
+    }
+    console.log(value); console.log(id);
     let auxObj: any = { negotiable: value };
     this._wh.putNegotiableBand(id.toString(), auxObj);
   }
 
   updateSell(value: number, id: number) {
-    value == 0? value = 1 : value = 0;
+    switch(value) {
+      case 0: value = 1; break; case 1: value = 0; break;
+    }
+    console.log(value); console.log(id);
     let auxObj: any = { toStoreOrSell: value };
-    this._wh.putNegotiableBand(id.toString(), auxObj);
+    this._wh.putStoreBand(id.toString(), auxObj);
   }
 
   updateTrade(value: number, id: number) {
-    value == 0? value = 1 : value = 0;
+    switch(value) {
+      case 0: value = 1; break; case 1: value = 0; break;
+    }
+    console.log(value); console.log(id);
     let auxObj: any = { trade: value };
-    this._wh.putNegotiableBand(id.toString(), auxObj);
+    this._wh.putTradeBand(id.toString(), auxObj);
   }
 
   viewImage(img: any) {
@@ -105,9 +228,10 @@ export class WarehouseStatusComponent implements OnInit {
   load() {
     this.warehouseItems = [];
     this._wh.getUserWarehouse(this.user.id).subscribe(async (data: any) => {
+      console.log(data);
       this.countItems(data);
       for(let i = 0; i < data.length; i++) {
-        let auxItem = await this.assignItem(data[i].type, data[i].id);
+        let auxItem = await this.assignItem(data[i].type, data[i].itemID);
         data[i].castingInfo = auxItem;
         data[i].base64Img = this.transformImg(data[i].refImg.data);
         delete data[i].refImg;

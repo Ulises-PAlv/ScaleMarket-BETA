@@ -4,8 +4,8 @@
             <div class="col-8">
                 <div class="row my-2">
                     <div class="col-2">
-                        <button class="btn btn-dark btn-block"><i class="fas fa-car"></i><i
-                                class="fas fa-plus mx-2"></i></button>
+                        <button class="btn btn-dark btn-block" (click)="addItem()"><i class="fas fa-car"></i><i
+                            class="fas fa-plus mx-2"></i></button>
                     </div>
                     <div class="col-8">
                         <input class="form-control" type="text" placeholder="Search">
@@ -15,49 +15,62 @@
                     </div>
                 </div>
 
-                <div class="row my-3">
-                    <div class="card pt-2 col-4" *ngFor="let item of warehouseItems">
-                        <div class="img-box img-effect">
-                            <img class="card-img-top" alt="Item image" [src]="item.base64Img" (click)="viewImage(item.base64Img)">
-                        </div>
-                        <div class="card-body">
-                            <ul class="nav nav-tabs mt-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#info"><i class="fas fa-info"></i></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#itemdata"><i class="fas fa-file-invoice"></i></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#options"><i class="fas fa-cog"></i></a>
-                                </li>
-                            </ul>
-                
-                            <div class="tab-content">
-                                <div class="tab-pane container active" id="info">
-                                    <p class="mt-2">Name: {{item.castingInfo[0].name | titlecase}}</p>
-                                    <p>{{item.castingInfo[0].year}}</p>
-                                    <hr>
-                                    <p>Pieces: {{item.castingInfo[0].pieces}}</p>
-                                    <hr>
-                                    <p>{{item.castingInfo[0].contents}}</p>
+                <div class="row my-3 px-3">
+                    <div class="card pt-2 my-2 col-12" *ngFor="let item of warehouseItems">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card-body">
+                                    <ul class="nav nav-tabs mt-0">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-toggle="tab" href="{{'#info' + item.id}}"><i class="fas fa-info"></i></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="{{'#itemdata' + item.id}}"><i class="fas fa-file-invoice"></i></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="{{'#options' + item.id}}"><i class="fas fa-cog"></i></a>
+                                        </li>
+                                    </ul>
+                        
+                                    <div class="tab-content">
+                                        <div class="tab-pane container active" id="{{'info' + item.id}}">
+                                            <p class="mt-2">Name: {{item.castingInfo[0].name | titlecase}}</p>
+                                            <p>{{item.castingInfo[0].year}}</p>
+                                            <hr>
+                                            <div *ngIf="item.type == 'pack'">
+                                                <p>Pieces: {{item.castingInfo[0].pieces}}</p>
+                                                <hr>
+                                                <p>{{item.castingInfo[0].contents}}</p>
+                                            </div>
+                                            <div *ngIf="item.type == 'casting'">
+                                                <p>Oddity: {{item.castingInfo[0].oddity | uppercase}}</p><hr>
+                                                <p>Set: {{item.castingInfo[0].setBelong | titlecase}}</p><hr>
+                                                <p>Variant: {{item.castingInfo[0].variant | titlecase}}</p><hr>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane container fade" id="{{'itemdata' + item.id}}">
+                                            <p class="mt-2">Value: {{item.value | currency}}</p><hr>
+                                            <p>Blister: <span *ngIf="item.blister == 1">[ {{item.blisterCondition | uppercase}} ]</span> {{item.blister | boolean}}</p><hr>
+                                            <p>Casting(s) score: {{item.castingScore}}</p><hr>
+                                            <p>Quantity: {{item.quantity}}</p><hr>
+                                            <p>Sold out: {{item.soldOut | boolean}}</p>
+                                        </div>
+                                        <div class="tab-pane container fade" id="{{'options' + item.id}}">
+                                            <p class="mt-2"><input type="checkbox" [checked]="item.negotiable == 1" data-toggle="toggle" data-size="xs" data-onstyle="dark" (change)="updateNegotiable(item.negotiable, item.id)"> <span class="mx-2">Negotiable</span>
+                                            </p>
+                                            <hr>
+                                            <p><input type="checkbox" [checked]="item.toStoreOrSell == 1" data-toggle="toggle" data-size="xs" data-onstyle="dark" (change)="updateSell(item.toStoreOrSell, item.id)"> <span class="mx-2">Sell</span></p>
+                                            <hr>
+                                            <p><input type="checkbox" [checked]="item.trade == 1" data-toggle="toggle" data-size="xs" data-onstyle="dark" (change)="updateTrade(item.trade, item.id)"> <span class="mx-2">Trade</span></p>
+                                            <hr>
+                                            <a class="edit">Edit item</a>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="tab-pane container fade" id="itemdata">
-                                    <p class="mt-2">Value: {{item.value | currency}}</p><hr>
-                                    <p>Blister: [ <span *ngIf="item.blister == 1">{{item.blisterCondition | uppercase}} ]</span> {{item.blister | boolean}}</p><hr>
-                                    <p>Casting(s) score: {{item.castingScore}}</p><hr>
-                                    <p>Quantity: {{item.quantity}}</p><hr>
-                                    <p>Date stock: {{item.dateStock}}</p><hr>
-                                    <p>Sold out: {{item.soldOut | boolean}}</p>
-                                </div>
-                                <div class="tab-pane container fade" id="options">
-                                    <p class="mt-2">Negotiable: <input type="checkbox" [checked]="item.negotiable == 1" data-toggle="toggle" data-size="xs" data-onstyle="dark" (change)="updateNegotiable(item.negotiable, item.id)">
-                                    </p>
-                                    <hr>
-                                    <p>Sell: <input type="checkbox" [checked]="item.toStoreOrSell == 1" data-toggle="toggle" data-size="xs" data-onstyle="dark" (change)="updateSell(item.negotiable, item.id)"></p>
-                                    <hr>
-                                    <p>Trade: <input type="checkbox" [checked]="item.trade == 1" data-toggle="toggle" data-size="xs" data-onstyle="dark" (change)="updateTrade(item.negotiable, item.id)"></p>
-                                    <button class="btn btn-dark btn-block">Edit item</button>
+                            </div>
+                            <div class="col-6">
+                                <div class="img-box img-effect">
+                                    <img class="card-img-top" alt="Item image" [src]="item.base64Img" (click)="viewImage(item.base64Img)">
                                 </div>
                             </div>
                         </div>
@@ -92,4 +105,79 @@
     <img class="card-img-top" alt="Item image" [src]="focusImg">
     <hr>
     <button class="btn btn-outline-dark btn-block" (click)="closeImg()">Close</button>
+</div>
+
+<div class="form-add text-center" *ngIf="bandAddItem">
+    <h2>Add your item</h2>
+    <hr>
+
+    <div class="container p-3">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="type">Type</label>
+                    <select #type class="form-control" (change)="updateType(type.value)">
+                        <option selected disabled>Choose...</option>
+                        <option>casting</option>
+                        <option>pack</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="item">Item selection</label>
+                    <input type="text" name="item selection" #item list="item-list" class="form-control">
+                    <datalist id="item-list">
+                        <option [value]="wh_item.id" *ngFor="let wh_item of warehouse_list">{{wh_item.name}} {{wh_item.oddity | uppercase}} : {{wh_item.year}} ({{wh_item.variant}}{{wh_item.edition}})</option>
+                    </datalist>
+                </div>
+                <div class="col-md-2">
+                    <label for="item-list">Create item</label>
+                    <button class="btn btn-outline-dark btn-block">
+                        <i class="fas fa-hand-holding-medical"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="blister">Blister</label>
+                    <select #blister class="form-control">
+                        <option selected disabled>Choose...</option>
+                        <option>{{0 | boolean}}</option>
+                        <option>{{1 | boolean}}</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="blCondition">Blister condition</label>
+                    <select #blCondition class="form-control">
+                        <option selected disabled>Choose...</option>
+                        <option>MINT</option>
+                        <option>NM</option>
+                        <option>LP</option>
+                        <option>MP</option>
+                        <option>HP</option>
+                        <option>DAMAGED</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="castingScore">Casting(s) score</label>
+                    <input type="number" min="0" max="10" class="form-control" #castingScore placeholder="">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="cost">Value</label>
+                    <input type="number" class="form-control" #cost placeholder="$">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" min="0" max="1000" class="form-control" #quantity placeholder="">
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="img">Reference image</label>
+                    <input type="file" class="form-control" #img placeholder="" (change)="uploadRefImg($event)">
+                </div>
+            </div>
+            <button type="button" class="btn btn-dark btn-block" (click)="postItem(type.value, item.value, blister.value, blCondition.value, castingScore.value, cost.value, quantity.value)">Add</button>
+            <button type="button" class="btn btn-outline-dark btn-block" (click)="closeAddItem()">Close</button>
+        </form>
+    </div>
 </div>

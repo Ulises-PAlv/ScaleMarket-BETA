@@ -23,6 +23,7 @@
     "@swimlane/ngx-charts": "^20.1.2",
     "angular-notifier": "^11.0.0",
     "animate.css": "^4.1.1",
+    "base64-blob": "^1.4.1",
     "bootstrap4-toggle": "^3.6.1",
     "bourbon": "^7.2.0",
     "crypto-js": "^4.1.1",

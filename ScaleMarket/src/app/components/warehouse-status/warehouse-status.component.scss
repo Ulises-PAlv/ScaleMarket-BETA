@@ -41,6 +41,7 @@ a:hover::before {
     min-width: 205px;
     width: 205px;
     overflow: hidden;
+    margin: auto;
 }
 
 .card-body {
@@ -68,15 +69,43 @@ p {
 
 .focus-img {
     position: absolute;
-    left: 10%;
-    top: 20%;
+    left: 37.5%;
+    top: 19%;
 
-    width: 20rem;
-    height: 20rem;
-    background-color: white;
+    padding: 1rem;
+    height: auto;
+    width: auto;
+    background-color: white !important;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+    text-align: center;
+    align-content: center;
+}
+
+.focus-img img {
+    height: 28rem !important;
+    width: auto !important;
 }
 
 hr {
-    margin-top: 0.2rem !important;
-    margin-bottom: 0.2rem !important;
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.35rem !important;
+}
+
+.form-add {
+    position: absolute;
+    top: 19%;
+    left: 16%;
+    width: 45rem !important;
+    height: 28rem !important;
+    padding: 1rem;
+
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+}
+
+.edit {
+    font-weight: bold;
+    cursor: pointer;
 }

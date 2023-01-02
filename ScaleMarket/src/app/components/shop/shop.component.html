@@ -1,1 +1,56 @@
-<p>shop works!</p>
+<div class="container frame-size">
+    <div class="main-body pt-4 pb-2 pl-0 pr-5">
+        <div class="row  filters">
+            <div class="col-2">
+                <button class="btn btn-dark btn-block"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="col-4">
+                <input class="form-control" type="text" placeholder="Search">
+            </div>
+            <div class="col-2">
+                <select #type class="form-control" (change)="filterType(type.value)">
+                    <option selected disabled>Type...</option>
+                    <option>Casting</option>
+                    <option>Pack</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select #year class="form-control" (change)="filterType(type.value)">
+                    <option selected disabled>Year...</option>
+                    <option *ngFor="let year of yearsOpt">{{year}}</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <select #oddity class="form-control" (change)="filterType(type.value)">
+                    <option selected disabled>Oddity...</option>
+                    <option>SE</option>
+                    <option>BL</option>
+                    <option>PREMIUM</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row my-2 px-2">
+            <div class="col-6 p-2" *ngFor="let item of shopItems">
+                <div class="card text-center">
+                    <div class="card-header">
+                        {{item.value | currency}}
+                    </div>
+                    <div class="card-body mb-0">
+                        <h3 class="card-title my-0">[ <span *ngIf="item.blister == 1">{{item.blisterCondition | uppercase}} - </span>{{item.castingScore}} ]</h3>
+
+                        <div class="img-box img-effect">
+                            <img class="card-img-top" alt="Item image" [src]="item.base64Image">
+                        </div>
+
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-outline-dark"><i class="fas fa-hand-pointer"></i></a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Quantity: {{item.quantity}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

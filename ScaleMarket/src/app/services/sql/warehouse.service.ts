@@ -87,11 +87,19 @@ export class WarehouseService {
     }));
   }
 
-  postWareHouseItem(body: any) {
+  postWareHouseItem(body: any): any {
     const url = this.environment.mysql_url + this.petitions.post.warehouse;
-    this._http.post(url, body).subscribe((res: any) => {
+    let response = null;
+    /* this._http.post(url, body).subscribe((res: any) => {
       console.log(res);
-    });
+      response = res;
+    }); */
+    return this._http.post(url, body);
+    // return response;
+    /* this._http.post(url, body).subscribe((res: any) => {
+      console.log(res);
+      return res;
+    }); */
   }
 
   putRestockItem(id: string, body: any) {
@@ -131,6 +139,13 @@ export class WarehouseService {
 
   putStoreBand(id: string, body: any) {
     const url = this.environment.mysql_url + this.petitions.put.updateStoreBandItem + id;
+    this._http.put(url, body).subscribe((res: any) => {
+      console.log(res);
+    });
+  }
+
+  putWhImage(id: string, body: any) {
+    const url = this.environment.mysql_url + this.petitions.put.addWhImage + id;
     this._http.put(url, body).subscribe((res: any) => {
       console.log(res);
     });

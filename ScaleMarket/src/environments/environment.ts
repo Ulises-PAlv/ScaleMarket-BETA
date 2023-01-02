@@ -72,7 +72,8 @@ export class SQL {
     updateNegotiableBandItem: '/update/warehouse/negotiable/',
     updateTradeBandItem: '/update/warehouse/trade/',
     updateStoreBandItem: '/update/warehouse/toStoreOrSell/',
-    updateProspectTurn: '/update/propsect/turn/'
+    updateProspectTurn: '/update/propsect/turn/',
+    addWhImage: '/update/warehouse/image/'
   };
 
   delete: any = {
